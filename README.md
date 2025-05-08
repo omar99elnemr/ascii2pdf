@@ -57,19 +57,43 @@ Converted PDF files will appear in `/opt/processed`.
 
 ## 🔁 Optional: Run as a Systemd Service
 
-To make the container start automatically and behave like a system service:
+To make the container start automatically and behave like a system service, generate a systemd unit file:
 
 ```bash
 podman generate systemd --name ascii2pdf --files --new --restart-policy=always
 ```
 
-Copy the generated `.service` file to `/etc/systemd/system/`, then enable and start it (root container!):
+This will create a file like `container-ascii2pdf.service` in your current directory.
+
+---
+
+### 🔒 If running as root (system service):
+
+Copy the file to the systemd system directory, then enable and start it:
 
 ```bash
 sudo cp container-ascii2pdf.service /etc/systemd/system/
 sudo systemctl enable --now container-ascii2pdf.service
 ```
 
+---
+
+### 👤 If running as a non-root (rootless) user:
+
+1. Enable lingering for your user to allow background services:
+```bash
+sudo loginctl enable-linger $USER
+```
+
+2. Move the unit file to your user systemd folder and enable it:
+```bash
+mkdir -p ~/.config/systemd/user/
+cp container-ascii2pdf.service ~/.config/systemd/user/
+systemctl --user daemon-reexec
+systemctl --user enable --now container-ascii2pdf.service
+```
+
+---
 For more information, refer to the **Containers** chapter in the RHCSA exam guide.
 
 ---
