@@ -60,10 +60,10 @@ Converted PDF files will appear in `/opt/processed`.
 To make the container start automatically and behave like a system service:
 
 ```bash
-podman generate systemd --name ascii2pdf --files --restart-policy=always
+podman generate systemd --name ascii2pdf --files --new --restart-policy=always
 ```
 
-Copy the generated `.service` file to `/etc/systemd/system/`, then enable and start it:
+Copy the generated `.service` file to `/etc/systemd/system/`, then enable and start it (root container!):
 
 ```bash
 sudo cp container-ascii2pdf.service /etc/systemd/system/
