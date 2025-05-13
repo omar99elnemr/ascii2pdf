@@ -1,7 +1,7 @@
 FROM registry.fedoraproject.org/fedora:latest
 
 # Install necessary tools
-RUN dnf -y install enscript ghostscript && dnf clean all
+RUN dnf -y install enscript ghostscript && dnf install -y git && dnf clean all
 
 # Create directories for input/output
 RUN mkdir -p /opt/incoming /opt/outgoing
